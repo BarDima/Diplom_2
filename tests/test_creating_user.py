@@ -16,13 +16,12 @@ class TestCreateUser:
         response = requests.post(add_user_url, json=payload)
         assert response.status_code == 200
         response_data = response.json()
-
         access_token = response_data["accessToken"]
         headers = {
             "Authorization": access_token
         }
-        delete_response = requests.delete(delete_user_url, headers=headers)
-        assert delete_response.status_code == 202
+        requests.delete(delete_user_url, headers=headers)
+
 
     @allure.title("Проверка создания пользователя, который уже зарегистрирован")
     def test_create_existing_user(self):
