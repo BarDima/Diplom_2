@@ -1,10 +1,11 @@
 import requests
 from data_faker import get_sign_up_data
 import allure
+from data import add_user_url, delete_user_url, data_change_user_url
 
 class TestDataChangeUser:
     @allure.title("Проверка изменения данных авторизованного пользователя")
-    def test_update_user_data_with_authorization(self, data_change_user_url, add_user_url, delete_user_url):
+    def test_update_user_data_with_authorization(self):
         name, email, password = get_sign_up_data()
         payload = {
             "email": email,
@@ -31,7 +32,7 @@ class TestDataChangeUser:
         requests.delete(delete_user_url, headers=headers)
 
     @allure.title("Проверка изменения данных не авторизованного пользователя")
-    def test_update_user_data_without_authorization(self, data_change_user_url):
+    def test_update_user_data_without_authorization(self):
         headers = {}
         updated_name = "Testname"
         payload = {"name": updated_name}

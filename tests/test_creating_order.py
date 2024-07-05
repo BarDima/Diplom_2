@@ -1,13 +1,13 @@
 import requests
 from data_faker import get_sign_up_data
 import allure
+from data import add_user_url, delete_user_url, login_user_url, ingredients_url, creating_order_url, receiving_order_url, data_change_user_url
 
 
 class TestCreatingOrder:
 
     @allure.title("Проверка создания заказа авторизованным пользователем")
-    def test_creating_order_with_authorization(self, add_user_url, login_user_url, ingredients_url, creating_order_url,
-                                               delete_user_url):
+    def test_creating_order_with_authorization(self):
         name, email, password = get_sign_up_data()
         payload = {
             "email": email,
@@ -44,7 +44,7 @@ class TestCreatingOrder:
         requests.delete(delete_user_url, headers=headers)
 
     @allure.title("Проверка создания заказа не авторизованным пользователем")
-    def test_creating_order_without_authorization(self, ingredients_url, creating_order_url):
+    def test_creating_order_without_authorization(self):
         ingredients_response = requests.get(ingredients_url)
         ingredients_data = ingredients_response.json()
         ingredients_list = ingredients_data['data']
@@ -59,8 +59,7 @@ class TestCreatingOrder:
         assert order_response.status_code == 200
 
     @allure.title("Проверка создания заказа с неверным хэшем ингредиентов")
-    def test_creating_order_with_invalid_ingredient_id(self, add_user_url, login_user_url, ingredients_url,
-                                                       creating_order_url, delete_user_url):
+    def test_creating_order_with_invalid_ingredient_id(self):
         name, email, password = get_sign_up_data()
         payload = {
             "email": email,
@@ -90,8 +89,7 @@ class TestCreatingOrder:
         requests.delete(delete_user_url, headers=headers)
 
     @allure.title("Проверка создания заказа без ингредиентов")
-    def test_creating_order_without_ingredient_id(self, add_user_url, login_user_url, ingredients_url,
-                                                       creating_order_url, delete_user_url):
+    def test_creating_order_without_ingredient_id(self):
         name, email, password = get_sign_up_data()
         payload = {
             "email": email,

@@ -1,10 +1,11 @@
 import requests
 from data_faker import get_sign_up_data
 import allure
+from data import add_user_url, delete_user_url, login_user_url
 
 class TestLogin:
     @allure.title("Проверка авторизации существующего пользователя")
-    def test_login(self, add_user_url, delete_user_url, login_user_url):
+    def test_login(self):
         name, email, password = get_sign_up_data()
         payload = {
             "email": email,
@@ -28,7 +29,7 @@ class TestLogin:
         requests.delete(delete_user_url, headers=headers)
 
     @allure.title("Проверка авторизации с неверным логином и паролем")
-    def test_incorrect_login(self, login_user_url):
+    def test_incorrect_login(self):
         payload = {
             "email": "email@yandex.ru",
             "password": "passwordd"
